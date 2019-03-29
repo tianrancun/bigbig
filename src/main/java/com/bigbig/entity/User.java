@@ -26,4 +26,8 @@ public class User {
     @Column(name = "email", length = 100)
     private String email;
 
+    public User(String name, String email) {
+        this.name = name;
+        this.email = email;
+    }
 }
