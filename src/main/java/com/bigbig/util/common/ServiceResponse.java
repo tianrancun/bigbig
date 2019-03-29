@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 public class ServiceResponse<T> {
 	
 	private Status status = Status.SUCCESS;
-	
-	private String errorMessge;
+
+	private String errorMessage;
 	
 	private T payload;
 	
@@ -23,6 +23,6 @@ public class ServiceResponse<T> {
 	
 	public ServiceResponse(String errorMessage) {
 		this.status = Status.ERROR;
-		this.errorMessge = errorMessage;
+		this.errorMessage = errorMessage;
 	}
 }
