@@ -12,7 +12,7 @@ public class HelloWorld {
 
     @RequestMapping(value = "/hello")
     public String sayHelloWorld(){
-        log.info("say hello world!");
+        log.info("say hello world!!");
         return "hello world!";
     }
 }
