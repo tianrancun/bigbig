@@ -14,6 +14,6 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long> {
      Optional<User> findByClaimId(Integer claimid);
 
-//    @Query("select c from Claim c join fetch c.items i where c.claimId = ?1 and c.clubNbr = ?2 and c.state != 'DELETED' and i.isBackfeedFail = 0 and i.isDeletedOnCorr = 0")
-//    public Optional<Claim> findByClaimIdByClub(Long claimid, Integer clubNbr);
+//    @Query("select c from User c join fetch c.items i where c.claimId = ?")
+//    public Optional<User> findByClaimIdByClub(Long claimid);
 }
