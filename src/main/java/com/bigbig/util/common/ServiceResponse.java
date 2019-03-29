@@ -14,9 +14,7 @@ public class ServiceResponse<T> {
 	private String errorMessage;
 	
 	private T payload;
-	
-	private String printsPayload;
-	
+
 	public ServiceResponse(T payload){
 		this.payload = payload;
 	}

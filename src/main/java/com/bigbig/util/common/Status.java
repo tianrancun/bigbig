@@ -2,7 +2,7 @@ package com.bigbig.util.common;
 
 public enum Status {
 	
-	SUCCESS(200),ERROR(500),NOT_FOUND(404),DE(1);
+	SUCCESS(200),ERROR(500),NOT_FOUND(404);
 
 	private int response;
 
