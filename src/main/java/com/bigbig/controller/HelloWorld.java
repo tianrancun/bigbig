@@ -13,21 +13,21 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = "say")
 @Slf4j
-@Api("swaggerDemoController相关的api")
+//@Api("swaggerDemoController相关的api")
 public class HelloWorld {
 
     /**
      * http://localhost:8080/swagger-ui.html
      */
-    @ApiOperation(value = "swagger测试请求接口", notes = "测试say helloworld")
-    @ApiImplicitParam(name = "content", value = "输入的内容", paramType = "path", required = true, dataType = "String")
-    @RequestMapping(value = "/{content}", method = RequestMethod.GET)
+   // @ApiOperation(value = "swagger测试请求接口", notes = "测试say helloworld")
+   // @ApiImplicitParam(name = "content", value = "输入的内容", paramType = "path", required = true, dataType = "String")
+    @RequestMapping(value = "/t1/{content}", method = RequestMethod.GET)
     public String sayHelloWorld(@PathVariable String content){
         log.info("say {}",content);
         return "hello world!";
     }
 
-    @RequestMapping(value = "/{yumen}", method = RequestMethod.GET)
+    @RequestMapping(value = "/t2/{yumen}", method = RequestMethod.GET)
     public String sayHelloWorld2(@PathVariable String yumen){
         log.info("say 2{}",yumen);
         return "hello world!";
