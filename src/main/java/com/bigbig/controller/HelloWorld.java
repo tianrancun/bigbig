@@ -1,18 +1,35 @@
 package com.bigbig.controller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
 @RequestMapping(value = "say")
 @Slf4j
+@Api("swaggerDemoController相关的api")
 public class HelloWorld {
 
-    @RequestMapping(value = "/hello")
-    public String sayHelloWorld(){
-        log.info("say hello world!!");
+    /**
+     * http://localhost:8080/swagger-ui.html
+     */
+    @ApiOperation(value = "swagger测试请求接口", notes = "测试say helloworld")
+    @ApiImplicitParam(name = "content", value = "输入的内容", paramType = "path", required = true, dataType = "String")
+    @RequestMapping(value = "/{content}", method = RequestMethod.GET)
+    public String sayHelloWorld(@PathVariable String content){
+        log.info("say {}",content);
+        return "hello world!";
+    }
+
+    @RequestMapping(value = "/{yumen}", method = RequestMethod.GET)
+    public String sayHelloWorld2(@PathVariable String yumen){
+        log.info("say 2{}",yumen);
         return "hello world!";
     }
 }
