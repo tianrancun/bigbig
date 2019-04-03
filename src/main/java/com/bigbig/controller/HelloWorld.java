@@ -1,5 +1,6 @@
 package com.bigbig.controller;
 
+import com.bigbig.util.common.ServiceResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -8,6 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 
 @RestController
@@ -22,9 +25,10 @@ public class HelloWorld {
    // @ApiOperation(value = "swagger测试请求接口", notes = "测试say helloworld")
    // @ApiImplicitParam(name = "content", value = "输入的内容", paramType = "path", required = true, dataType = "String")
     @RequestMapping(value = "/t1/{content}", method = RequestMethod.GET)
-    public String sayHelloWorld(@PathVariable String content){
+    public ServiceResponse<Boolean> sayHelloWorld(@PathVariable String content){
         log.info("say {}",content);
-        return "hello world!";
+        String sayContent = "hello world!";
+        return new ServiceResponse<>(sayContent);
     }
 
     @RequestMapping(value = "/t2/{yumen}", method = RequestMethod.GET)
