@@ -1,5 +1,6 @@
 package com.bigbig.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -32,4 +33,8 @@ public class Student {
     @Column(name = "email")
     private String email;
 
+    @JsonIgnore
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "class_nbr", nullable = false)
+    private StudentClass studentClass;
 }
