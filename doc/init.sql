@@ -12,3 +12,7 @@ insert into student values
 ('xiaohong','003','4','15','xiaohong@samsclub.com');
 
 update student set class_nbr=4;
+
+--mssql sequence
+--select next value for claims.claim_seq_1;
+--ALTER SEQUENCE claims.claim_seq_1 RESTART WITH 1
