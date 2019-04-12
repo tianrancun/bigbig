@@ -64,6 +64,11 @@
 			<artifactId>querydsl-apt</artifactId>
 			<version>${querydsl.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>net.gpedro.integrations.slack</groupId>
+			<artifactId>slack-webhook</artifactId>
+			<version>1.4.0</version>
+		</dependency>
 
 	</dependencies>
 
