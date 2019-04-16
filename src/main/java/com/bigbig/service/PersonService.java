@@ -53,6 +53,7 @@ public class PersonService {
         person.setCards(cards);
 
         personRepository.save(person);
+
         return person;
     }
 }
