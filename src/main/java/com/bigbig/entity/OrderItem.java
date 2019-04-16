@@ -1,3 +1,4 @@
+/*
 package com.bigbig.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -50,4 +51,4 @@ public class OrderItem {
         this.order = order;
     }
 
-}
+}*/

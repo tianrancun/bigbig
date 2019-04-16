@@ -20,7 +20,7 @@ public class TestUser {
     private UserRepository userRepository;
     @Test
     public void testFindUser() throws Exception {
-        Optional<User> user =  userRepository.findByClaimId(1);
+        Optional<User> user =  userRepository.findByUserId(6);
         user.orElseThrow(()-> new Exception("user not exist"));
         System.out.println(user.get());
 

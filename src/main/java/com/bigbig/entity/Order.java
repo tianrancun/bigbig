@@ -1,3 +1,4 @@
+/*
 package com.bigbig.entity;
 
 import java.util.HashSet;
@@ -47,12 +48,14 @@ public class Order {
         this.items = items;
     }
 
-    /**
+    */
+/**
      *该方法用于向order中加order项
-     **/
+     **//*
+
     public void addOrderItem(OrderItem orderItem){
         orderItem.setOrder(this);//用关系维护端来维护关系
         this.items.add(orderItem);
     }
 
- }
+ }*/

@@ -12,7 +12,7 @@ import java.util.Optional;
 //public interface UserRepository extends CrudRepository<User, Integer> {
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-     Optional<User> findByClaimId(Integer claimid);
+     Optional<User> findByUserId(Integer claimid);
 
 //    @Query("select c from User c join fetch c.items i where c.claimId = ?")
 //    public Optional<User> findByClaimIdByClub(Long claimid);

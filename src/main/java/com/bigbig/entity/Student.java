@@ -21,7 +21,7 @@ public class Student {
     @Column(name = "student_name", nullable = false, length = 100)
     private String studentName;
 
-    @Column(name = "student_nbr", nullable = false, length = 100)
+    @Column(name = "student_nbr", length = 100)
     private String studentNbr;
 
     @Column(name = "class_nbr", length = 100)
@@ -33,8 +33,8 @@ public class Student {
     @Column(name = "email")
     private String email;
 
-    @JsonIgnore
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = "class_nbr", nullable = false)
-    private StudentClass studentClass;
+//    @JsonIgnore
+//    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+//    @JoinColumn(name = "class_nbr", nullable = false)
+//    private StudentClass studentClass;
 }
