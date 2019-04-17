@@ -23,7 +23,7 @@ public class DateTimeUtil {
         return LocalDateTime.now().atOffset(ZoneOffset.UTC).toLocalDateTime();
     }
 
-    public LocalDateTime getCurrentDateTimeInUTC() {
+    public static LocalDateTime getCurrentDateTimeInUTC() {
         LocalDateTime localDateTimeInUTC = ZonedDateTime.ofInstant(ZonedDateTime.now().toInstant(), ZoneId.of("UTC")).toLocalDateTime().withNano(0);
 
         log.debug("getCurrentDateTimeInUTC {} ", localDateTimeInUTC);
@@ -50,4 +50,11 @@ public class DateTimeUtil {
         return timeZone.getKey().matches("AST|HST|PST") ? LocalDateTime.now(ZoneId.of("America/Los_Angeles"))
                 : LocalDateTime.now(ZoneId.of(timeZone.getValue()));
     }
+
+    public static LocalDate DateToLocaleDate(Date date) {
+        Instant instant = date.toInstant();
+        ZoneId zoneId = ZoneId.systemDefault();
+        return instant.atZone(zoneId).toLocalDate();
+
+     }
 }
