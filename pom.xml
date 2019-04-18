@@ -90,6 +90,20 @@
 			<version>2.6.1</version>
 			<scope>compile</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>com.microsoft.azure</groupId>
+			<artifactId>azure-storage</artifactId>
+			<version>4.2.0</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient -->
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.5.8</version>
+		</dependency>
+
 	</dependencies>
 
 
