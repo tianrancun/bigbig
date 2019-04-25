@@ -22,7 +22,7 @@ public class SwaggerConfig {
                 .apiInfo(apiInfo())
                 .select()
                 //为当前包路径
-                .apis(RequestHandlerSelectors.basePackage("com.bigbig.service"))
+                .apis(RequestHandlerSelectors.basePackage("com.bigbig.controller"))
                 .paths(PathSelectors.any())
                 .build();
     }

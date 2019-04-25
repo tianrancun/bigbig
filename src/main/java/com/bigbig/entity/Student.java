@@ -1,9 +1,7 @@
 package com.bigbig.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -12,6 +10,9 @@ import javax.persistence.*;
 @ToString(exclude = {"email"})
 @EqualsAndHashCode(exclude = { "studentName", "studentNbr" })
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder(toBuilder = true)
 public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,6 +33,7 @@ public class Student {
 
     @Column(name = "email")
     private String email;
+
 
 //    @JsonIgnore
 //    @ManyToOne(optional = false, fetch = FetchType.LAZY)
