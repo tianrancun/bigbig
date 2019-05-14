@@ -9,3 +9,11 @@ $ git config -user.name
 #switch account
 $ git config --global user.name xxx
 
+
+
+git remote -v
+git remote add xxx xxx.git
+git fetch xxx/dev
+git fetch xxx/dev
+git commit
+git push
