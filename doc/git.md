@@ -18,4 +18,4 @@ git fetch xxx/dev
 git commit
 git push
 
-git commit –-amend
+git commit –-amend edit msg
