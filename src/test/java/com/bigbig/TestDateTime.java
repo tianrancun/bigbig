@@ -44,8 +44,15 @@ public class TestDateTime {
 
         //字符串转时间
         String dateTimeStr = "2018-07-28 14:11:15";
+        String dateTimeStr2 = "2014-10-04 07:12:16.815003";
+
         DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+//        DateTimeFormatter df2 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSS");
+        DateTimeFormatter df2 = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
         LocalDateTime dateTime = LocalDateTime.parse(dateTimeStr, df);
+        LocalDateTime dateTime2 = LocalDateTime.parse(dateTimeStr2, df2);
+        System.out.println("dateTimeStr2" +dateTimeStr2);
+
 
 
 
