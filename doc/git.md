@@ -17,3 +17,5 @@ git fetch xxx/dev
 git fetch xxx/dev
 git commit
 git push
+
+git commit –amend
