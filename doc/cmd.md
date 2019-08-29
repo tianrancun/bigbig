@@ -25,3 +25,13 @@ SUCCESS: The process with PID 9920 (child process of PID 15660) has been termina
 /IM image name 指定要终止的进程的映像名称。通配符 '*'可用来指定所有映像名。
 /T Tree kill: 终止指定的进程和任何由此启动的子进程。
 /? 显示帮助/用法。
+
+
+
+2.volatile规则 ：volatile变量的写先于读发生，这保证了volatile变量的可见性
+3.锁规则 解锁（unlock）必然发生于加锁之前
+4.传递性 A先于B,B先于C,那么A必然先于C
+5 线程start（）方法先于它的每一个动作
+6.线程的所有操作先于线程的终结（Thread.join()）
+7.线程的中断（interrupt）先于被中断的线程代码
+8.对象的构造函数的执行、结束先于finalize()方法

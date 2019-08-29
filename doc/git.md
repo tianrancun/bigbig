@@ -19,3 +19,5 @@ git commit
 git push
 
 git commit –-amend edit msg
+
+git pull (short name of fork branch) branch name 更新fork分支代码到本地
