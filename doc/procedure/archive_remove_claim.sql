@@ -1,0 +1,127 @@
+CREATE PROCEDURE auditarchive.ARCHIVE_REMOVE_AUDIT(
+	@PRESENT_DATE datetime2(7),
+	@DAYS_OFFSET  int = 30,
+	@RETURN_VALUE int OUTPUT
+)
+AS
+BEGIN
+
+SET NOCOUNT ON;
+SET IMPLICIT_TRANSACTIONS OFF;
+
+
+SET @RETURN_VALUE = 0;
+DECLARE @errorMessage varchar(4000);
+----
+IF (@PRESENT_DATE IS NULL) BEGIN
+	SET @PRESENT_DATE = SYSDATETIME();
+END
+DECLARE @maxTime datetime2 = CAST((DATEADD(d, -(@DAYS_OFFSET), @PRESENT_DATE)) AS datetime2);
+
+----
+DECLARE @numAffected bigint;
+
+
+----
+BEGIN TRANSACTION LOG
+	INSERT INTO auditarchive.process_log VALUES('Start Of Procedure', 'ARCHIVE_REMOVE_CLAIM_ITEM', 'BEGIN PROCEDURE', NULL, NULL, null, @maxTime, SYSDATETIME());
+COMMIT TRANSACTION LOG
+
+
+----
+BEGIN TRANSACTION LOG
+	INSERT INTO auditarchive.process_log VALUES('Delete From [claims].[claim_item]', 'ARCHIVE_REMOVE_CLAIM_ITEM', 'START', 0, NULL, null, @maxTime, SYSDATETIME());
+COMMIT TRANSACTION LOG
+----
+BEGIN TRY
+	BEGIN TRANSACTION REMOVE_CLAIM_ITEM
+
+		DELETE FROM claims_archive.claim_item1
+		--	WHERE auditid IN (SELECT C.auditid FROM audit.transactionaudit C
+		--		WHERE C.createdate <= @maxTime)
+		;
+		SET @numAffected = @@ROWCOUNT;
+
+		IF (@@ERROR <> 0) BEGIN
+			SET @errorMessage = 'Failed To Delete From [claims].[claim_item]'
+			RAISERROR(@errorMessage, 16, 1)
+		END
+		ELSE BEGIN
+			INSERT INTO auditarchive.process_log VALUES('Delete From [claims].[claim_item]', 'ARCHIVE_REMOVE_CLAIM_ITEM'
+				'SUCCESS', @numAffected, NULL, NULL, @maxTime, SYSDATETIME(),);
+		END
+
+	COMMIT TRANSACTION REMOVE_RECOMMENDATIONS
+END TRY
+
+BEGIN CATCH
+	IF (@@TRANCOUNT > 0)
+	BEGIN
+		ROLLBACK TRANSACTION REMOVE_RECOMMENDATIONS
+	END
+	BEGIN TRANSACTION LOG
+		INSERT INTO auditarchive.process_log VALUES('Failed To Delete From [claims].[claim_item]', 'ARCHIVE_REMOVE_CLAIM_ITEM', 'FAILURE', NULL, ERROR_MESSAGE(), NULL, @maxTime, SYSDATETIME());
+	COMMIT TRANSACTION LOG
+	SET @RETURN_VALUE = -1;
+END CATCH
+
+
+----
+BEGIN TRANSACTION LOG
+	INSERT INTO auditarchive.process_log VALUES('Delete From [claims].[claim]', 'ARCHIVE_REMOVE_CLAIM', 'START', 0, NULL, NULL, @maxTime, SYSDATETIME());
+COMMIT TRANSACTION LOG
+----
+BEGIN TRY
+	BEGIN TRANSACTION REMOVE_CLAIM
+
+		DELETE FROM audit.itemsaudit
+			WHERE auditid IN (SELECT C.auditid FROM audit.transactionaudit C
+				WHERE C.createdate <= @maxTime)
+		;
+		SET @numAffected = @@ROWCOUNT;
+
+		IF (@@ERROR <> 0) BEGIN
+			SET @errorMessage = 'Failed To Delete From [claims].[claim]'
+			RAISERROR(@errorMessage, 16, 1)
+		END
+		ELSE BEGIN
+			INSERT INTO auditarchive.process_log VALUES('Delete From [claims].[claim]', 'ARCHIVE_REMOVE_CLAIM',
+				'SUCCESS', @numAffected, NULL, NULL, @maxTime, SYSDATETIME());
+		END
+
+	COMMIT TRANSACTION REMOVE_CLAIM
+END TRY
+
+BEGIN CATCH
+	IF (@@TRANCOUNT > 0)
+	BEGIN
+		ROLLBACK TRANSACTION REMOVE_ITEMSAUDIT
+	END
+	BEGIN TRANSACTION LOG
+		INSERT INTO auditarchive.process_log VALUES('Failed To Delete From [claims].[claim]', 'ARCHIVE_REMOVE_CLAIM', 'FAILURE', NULL, ERROR_MESSAGE(), NULL, @maxTime, SYSDATETIME());
+	COMMIT TRANSACTION LOG
+	SET @RETURN_VALUE = -1;
+END CATCH
+
+
+
+
+----
+IF (@RETURN_VALUE >= 0) BEGIN
+	BEGIN TRANSACTION LOG
+		INSERT INTO auditarchive.process_log VALUES('End Of Procedure', 'ARCHIVE_REMOVE_DAILY', 'PROCEDURE SUCCEEDED', NULL, NULL, NULL, @maxTime, SYSDATETIME());
+	COMMIT TRANSACTION LOG
+END
+ELSE BEGIN
+	BEGIN TRANSACTION LOG
+		INSERT INTO auditarchive.process_log VALUES('End Of Procedure', 'ARCHIVE_REMOVE_DAILY', 'PROCEDURE FAILED', NULL, ERROR_MESSAGE(), NULL, @maxTime, SYSDATETIME());
+	COMMIT TRANSACTION LOG
+END
+
+
+----
+SELECT @RETURN_VALUE AS 'RETURN_VALUE';
+
+
+----
+END;

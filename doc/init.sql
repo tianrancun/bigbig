@@ -138,6 +138,21 @@ marine_pollute_ind BIT,
 CONSTRAINT PK__claim_item PRIMARY KEY (claim_item_id),
 CONSTRAINT FKClaimReference FOREIGN KEY (claim_id) REFERENCES claim(claim_id)
 ) ;
+
+create table claims_archive.process_log(
+	operation  varchar(40),
+	process_name varchar(20),
+	process_status varchar(40),
+	num_affected int,
+	error_msg varchar(100),
+	start_ts datetime2,
+	end_ts datetime2,
+	create_ts datetime2
+)
+alter  table claims_archive.process_log alter column operation varchar(100)
+alter  table claims_archive.process_log alter column process_name varchar(100)
+alter  table claims_archive.process_log alter column process_status varchar(40)
+
 --mssql sequence
 --select next value for claims.claim_seq_1;
 --ALTER SEQUENCE claims.claim_seq_1 RESTART WITH 1
