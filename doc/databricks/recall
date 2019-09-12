@@ -1,0 +1,95 @@
+dbutils.library.installPyPI("pymssql")
+dbutils.library.installPyPI("azure.servicebus")
+import datetime
+import pymssql
+import json
+from azure.servicebus import QueueClient, Message
+
+quene='claims-centralized-recallsq'
+connection_string ='Endpoint=sb://***.windows.net/;SharedAccessKeyName=***;SharedAccessKey=5asy7+Y2i+Q41ibyNmrMFSkclXifcXUnV7Lbl7ikWe4=;EntityPath=***'
+
+# Create the QueueClient
+queue_client = QueueClient.from_connection_string(connection_string, quene)
+
+starttime=datetime.datetime.now()
+# current_day=datetime.date.today()
+current_day='2019-06-20'
+
+# club_nbrs =getArgument("club_nbrs")
+club_nbrs="4942"
+
+if club_nbrs.strip() == '':
+    exit("club_nbrs should not be null")
+
+print("%s centralized recalls start ,club_nbrs:%s"%(current_day,club_nbrs))
+
+for club_nbr in club_nbrs.split(","):
+  query_start_time=datetime.datetime.now()
+  sql= """SELECT
+            max( b.recall_id ) recall_id,a.item_nbr item_nbr,c.recall_eff_date,c.recall_exp_date,b.last_change_ts
+        FROM
+            (
+                SELECT
+                    ri.ITEM_NBR,
+                    max( bre.recall_exp_date ) AS max_recall_exp_date
+                FROM
+                    db2mrtm.RECALL_ITEM RI,
+                    db2mrtm.BUYER_RECALL_AGREE bre
+                WHERE
+                    '%s' BETWEEN BRE.recall_eff_date AND BRE.recall_exp_date
+                    AND RI.ITEM_NBR in(980180563,980187121,980194896,980194911,980195017,980195018,980193442,980187137,980187139,980193158,980194961,980199673,980137527,980153442)
+                    AND RI.recall_id = BRE.recall_id
+                    AND BRE.recall_id > - 1
+                    AND BRE.status_code = 'A'
+                    AND BRE.acct_base_div_nbr = 18
+                    AND(
+                        ri.recall_level_value = 999999
+                        OR(
+                            ri.recall_level_value = 0
+                            AND EXISTS(
+                                SELECT
+                                    1
+                                FROM
+                                    db2mrtm.recall_store rs
+                                WHERE
+                                    rs.recall_id = ri.recall_id
+                                    AND rs.store_nbr = %s
+                                    AND ri.item_nbr = rs.item_nbr
+                            )
+                        )
+                    )
+                GROUP BY
+                    item_nbr
+            ) a,
+            db2mrtm.RECALL_ITEM b,
+            db2mrtm.BUYER_RECALL_AGREE c
+        WHERE
+            a.item_nbr = b.item_nbr and a.max_recall_exp_date = c.recall_exp_date and b.recall_id = c.recall_id
+        GROUP BY
+            a.item_nbr,c.recall_eff_date,c.recall_exp_date,b.last_change_ts
+        ORDER BY
+            a.item_nbr"""%(current_day,club_nbr)
+  res=spark.sql(sql)
+  data_collect=res.collect()
+  query_end_time=datetime.datetime.now()
+  print("query club_nbr:%s ,total count :%s ,take times :%s" %(club_nbr,res.count(),(query_end_time-query_start_time).seconds))
+  res.show(100)
+
+  data_list=[]
+  for row in data_collect:
+      data={}
+#       data_list.append(row.asDict())
+      data['recall_exp_date']=row.asDict()['recall_exp_date']
+      data['recall_eff_date']=row.asDict()['recall_eff_date']
+      data['item_nbr']=row.asDict()['item_nbr']
+      data['recall_id']=row.asDict()['recall_id']
+      data['club_nbr']=club_nbr
+      data['last_change_ts']=datetime.datetime.strptime(row.asDict()['last_change_ts'],"%Y-%m-%d %H:%M:%S.%f").strftime('%Y-%m-%d')
+      data_list.append(data)
+      print(data)
+  payload={'recallsVOList': data_list}
+  print(json.dumps(payload))
+  msg = Message(bytes(json.dumps(payload),encoding='utf-8'))
+  queue_client.send(msg)
+
+print("centralized recalls end...")
