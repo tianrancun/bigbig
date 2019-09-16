@@ -19,3 +19,30 @@ a.阻塞
 b无饥饿
 如果线程之间有优先级,那么线程调度的时候会倾向于满足高优先级的线程。对于同一个资源分配，是不公平的
 c无障碍
+d无锁
+e无等待
+
+java并发的几个特性
+原子性.
+原子性是指一个操作是不可中断的,即使是多个线程一起执行的时候,一个操作一旦开始,就不会被其他线程干扰
+可见性
+可见性是指当一个线程修改了某一个共享变量的值的时候,其他线程是否能够立即知道这个更改.
+volatile  synchronized Lock
+有序性
+指令重排
+
+线程的生命周期
+NEW RUNNABLE BLOCKED WAITING TIMED_WAITING TERMINATED
+obj.wait obj.notify obj.notifyAll
+
+
+Obj.wait()和Thread.sleep()都可以让线程等待若干时间,除了wait()方法可以被唤醒外,另一个主要区别就是wait()方法会释放目标对象的锁,而Thread.sleep()
+方法不会释放任何资源。
+
+等待线程结束(join)和谦让(yeild)
+
+volatile 与java内存模型
+
+线程组threadGroup
+
+守护线程
