@@ -128,3 +128,6 @@ LinkedList使用链表的数据结构作为实现List
 懒加载单例模式
 双重锁懒加载模式
 预加载+懒加载 利用内部类和类的初始化方式。
+
+
+https://blog.csdn.net/zrg523/article/details/82185088
