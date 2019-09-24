@@ -75,6 +75,11 @@ c.await()使当前线程等待,同时释放当前锁,当其他线程使用signal
 
 3.1.3允许多个线程同时访问:信号量 semaphore
 无论是内部锁synchronized还是重入锁reentrantLock,一次都只允许一个线程访问一个资源,而信号量却可以指定多个线程,同时访问某一个资源.
+public void acquire();尝试获得一个许可,如果无法获得,则线程会等待,直到释放一个许可或者当前线程被中断
+public void acquireUninterruptibly();与acquire()类似,但不响应中断.
+public boolean tryAcquire();尝试获得一个许可,如果成功,则返回true。
+public boolean tryAcquire(long timeout,TimeUint unit);
+public void release();在线程访问资源结束后释放一个许可.
 
 3.1.4 ReadWriteLock 读写分离锁
 读读不互斥,读写互斥,写写互斥。
@@ -131,3 +136,27 @@ LinkedList使用链表的数据结构作为实现List
 
 
 https://blog.csdn.net/zrg523/article/details/82185088
+
+Array  数组
+Arrays  数组工具
+
+Collection 最基本的集合接口
+Collections  集合工具类
+
+Collection <-List,Set
+
+[ArrayList LinkList  vector ] implements List
+ArrayList是基于数组实现 LinkList是基于链表的数据结构。
+对于随机访问,ArrayList优于LinkList。因为LinkList要移动指针。
+对于新增和删除,LinkList要优于ArrayList.因为arrayList要移动数组。在末尾添加数据时候,所花开销是一样的。在内部添加的时候，会导致数组重新分配,LinkList不支持随机访问。
+
+Set
+HashSet 一种没有重复元素的无序集合,跟插入的数据顺序可能不一样
+LinkHashSet 一种可以记住元素插入次序的集合,跟插入数据顺序一致
+TreeSet 一种有序集
+
+Map <- HashMap,HashTable
+
+Collections.SynchronizedMap和ConcurrentHashMap 区别
+
+ArrayList基于数组方式实现，容量限制不大于Integer.MAX_VALUE的小大，每次扩容1.5倍。有序，可以为null,允许重复，非线程安全。
