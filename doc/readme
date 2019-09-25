@@ -62,6 +62,7 @@ hashMap currentHashMap
 
 jdk 并发包
 3.1.1 同步并发控制synchronized 功能扩展reentrantLock
+锁的实现 syn基于jvm reentrantLock是基于jdk,需要手工声明加锁和解锁。粒度较细。可以指定公平锁和非公平锁,提供了中断等待锁的机制
 public static ReentrantLock lock = mew ReentrantLock()
 lock.lock
 lock.unlock
@@ -146,7 +147,7 @@ Collections  集合工具类
 Collection <-List,Set
 
 [ArrayList LinkList  vector ] implements List
-ArrayList是基于数组实现 LinkList是基于链表的数据结构。
+ArrayList是基于数组形式存储 LinkList是基于链表的数据结构。
 对于随机访问,ArrayList优于LinkList。因为LinkList要移动指针。
 对于新增和删除,LinkList要优于ArrayList.因为arrayList要移动数组。在末尾添加数据时候,所花开销是一样的。在内部添加的时候，会导致数组重新分配,LinkList不支持随机访问。
 

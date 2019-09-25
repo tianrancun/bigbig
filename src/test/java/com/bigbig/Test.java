@@ -17,4 +17,29 @@ public class Test {
 //        Thread.sleep(1000);
 //        singletonDemo.pirnt("dada");
     }
+
+    /**
+     * 递归
+     */
+    @org.junit.Test
+    public void recursion() {
+//        System.out.println(sum(4));
+//        pageCall(11);
+        System.out.println(2<<3);
+    }
+
+    private int sum(int num){
+        if(num==1){
+            return 1;
+        }else {
+            return num+sum(num-1);
+        }
+    }
+
+    private void pageCall(int size){
+        System.out.println(size);
+        if(size!=1){
+            pageCall(size-1);
+        }
+    }
 }
